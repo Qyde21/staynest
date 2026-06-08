@@ -26,16 +26,16 @@ function Footer() {
           </div>
           <div className="footer__col">
             <h4>Hosting</h4>
-            <a href="#">Become a Host</a>
-            <a href="#">Host Resources</a>
-            <a href="#">Responsible Hosting</a>
+            <button=>Become a Host</button>
+            <button=>Host Resources</button>
+            <button=>Responsible Hosting</button>
           </div>
           <div className="footer__col">
             <h4>Support</h4>
-            <a href="#">Help Centre</a>
-            <a href="#">Cancellation Policy</a>
-            <a href="#">Safety</a>
-            <a href="#">Contact Us</a>
+            <button>Help Centre</button>
+            <button>Cancellation Policy</button>
+            <button>Safety</button>
+            <button>Contact Us</button>
           </div>
         </div>
       </div>
@@ -43,9 +43,9 @@ function Footer() {
       <div className="footer__bottom container">
         <p>© {new Date().getFullYear()} StayNest Kenya. All rights reserved.</p>
         <div className="footer__bottom-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Sitemap</a>
+          <a href="#">Privacy</button>
+          <a href="#">Terms</button>
+          <a href="#">Sitemap</button>
         </div>
       </div>
     </footer>
