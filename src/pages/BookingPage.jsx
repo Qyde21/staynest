@@ -150,7 +150,7 @@ function BookingPage() {
                 <div className="booking-review__row booking-review__row--total"><span>Total</span><span>{formatKES(total)}</span></div>
               </div>
               <p className="booking-form__legal">
-                By confirming, you agree to StayNest's <span>Terms of Service</span> and <span>Cancellation Policy<span>.
+                By confirming, you agree to StayNest's <span>Terms of Service</span> and <span>Cancellation Policy</span>.
               </p>
               <div className="booking-form__actions">
                 <button className="booking-form__back" onClick={() => setStep(2)}>← Back</button>

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
@@ -12,7 +12,7 @@ function Footer() {
             <span className="footer__logo-text">StayNest</span>
           </div>
           <p className="footer__tagline">
-            Discover Kenya's most beautiful stays — from the coast to the savannah.
+            Discover Kenya's most beautiful stays - from the coast to the savannah.
           </p>
         </div>
 
@@ -26,9 +26,9 @@ function Footer() {
           </div>
           <div className="footer__col">
             <h4>Hosting</h4>
-            <button=>Become a Host</button>
-            <button=>Host Resources</button>
-            <button=>Responsible Hosting</button>
+            <button>Become a Host</button>
+            <button>Host Resources</button>
+            <button>Responsible Hosting</button>
           </div>
           <div className="footer__col">
             <h4>Support</h4>
@@ -41,11 +41,11 @@ function Footer() {
       </div>
 
       <div className="footer__bottom container">
-        <p>© {new Date().getFullYear()} StayNest Kenya. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} StayNest Kenya. All rights reserved.</p>
         <div className="footer__bottom-links">
-          <a href="#">Privacy</button>
-          <a href="#">Terms</button>
-          <a href="#">Sitemap</button>
+          <button>Privacy</button>
+          <button>Terms</button>
+          <button>Sitemap</button>
         </div>
       </div>
     </footer>
