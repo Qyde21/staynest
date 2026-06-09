@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { formatKES } from '../data/properties';
+import { createBooking } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import './BookingPage.css';
 
 function BookingPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { token } = useAuth();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
     paymentMethod: 'mpesa', mpesaNumber: '', cardNumber: '',
     cardExpiry: '', cardCVC: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   if (!state) {
     navigate('/listings');
@@ -23,8 +28,29 @@ function BookingPage() {
 
   const update = (field, value) => setForm((f) => ({ ...f, [field]: value }));
 
-  const handleConfirm = () => {
-    navigate('/confirm', { state: { ...state, form } });
+  const handleConfirm = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await createBooking({
+        propertyId: property.id,
+        checkinDate: checkin,
+        checkoutDate: checkout,
+        guests,
+        paymentMethod: form.paymentMethod,
+      }, token);
+
+      if (data.error) {
+        setError(data.error);
+        setLoading(false);
+        return;
+      }
+
+      navigate('/confirm', { state: { ...state, form, booking: data.booking } });
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -149,12 +175,15 @@ function BookingPage() {
                 <div className="booking-review__row"><span>Payment</span><span>{form.paymentMethod === 'mpesa' ? `M-Pesa (${form.mpesaNumber})` : 'Card'}</span></div>
                 <div className="booking-review__row booking-review__row--total"><span>Total</span><span>{formatKES(total)}</span></div>
               </div>
+              {error && <div style={{ color: '#dc2626', fontSize: '0.88rem', margin: '12px 0' }}>{error}</div>}
               <p className="booking-form__legal">
                 By confirming, you agree to StayNest's <span>Terms of Service</span> and <span>Cancellation Policy</span>.
               </p>
               <div className="booking-form__actions">
                 <button className="booking-form__back" onClick={() => setStep(2)}>← Back</button>
-                <button className="booking-form__confirm" onClick={handleConfirm}>Confirm & Pay {formatKES(total)}</button>
+                <button className="booking-form__confirm" onClick={handleConfirm} disabled={loading}>
+                  {loading ? 'Confirming...' : `Confirm & Pay ${formatKES(total)}`}
+                </button>
               </div>
             </div>
           )}

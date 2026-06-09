@@ -15,8 +15,8 @@ function BookingConfirmPage() {
     );
   }
 
-  const { property, checkin, checkout, guests, nights, total, form } = state;
-  const bookingRef = `SN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+  const { property, checkin, checkout, guests, nights, total, form, booking } = state;
+  const bookingRef = booking?.booking_ref || `SN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
   return (
     <div className="confirm-page">

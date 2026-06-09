@@ -40,3 +40,10 @@ export const createBooking = async (data, token) => {
   });
   return res.json();
 };
+
+export const getMyBookings = async (token) => {
+  const res = await fetch(`${API_URL}/api/bookings/my`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};

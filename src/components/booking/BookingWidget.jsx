@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatKES } from '../../data/properties';
+import { useAuth } from '../../context/AuthContext';
 import './BookingWidget.css';
 
 function BookingWidget({ property }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [checkin, setCheckin] = useState('');
   const [checkout, setCheckout] = useState('');
   const [guests, setGuests] = useState(1);
@@ -18,6 +20,10 @@ function BookingWidget({ property }) {
   const total = subtotal + serviceFee;
 
   const handleBook = () => {
+    if (!user) {
+      navigate('/login', { state: { from: `/property/${property.id}` } });
+      return;
+    }
     navigate(`/book/${property.id}`, {
       state: { property, checkin, checkout, guests, nights, total }
     });
@@ -60,7 +66,7 @@ function BookingWidget({ property }) {
         onClick={handleBook}
         disabled={!checkin || !checkout || nights <= 0}
       >
-        Reserve
+        {user ? 'Reserve' : 'Sign in to Reserve'}
       </button>
 
       {nights > 0 && (
