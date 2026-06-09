@@ -1,18 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logoutUser } = useAuth();
   const isHome = location.pathname === '/';
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logoutUser();
+    setDropdownOpen(false);
+    navigate('/');
+  };
 
   return (
     <nav className={`navbar ${scrolled || !isHome ? 'navbar--solid' : 'navbar--transparent'}`}>
@@ -29,14 +49,45 @@ function Navbar() {
         </div>
 
         <div className="navbar__actions">
-          <button className="navbar__host-btn">Become a Host</button>
-          <button
-            className="navbar__menu-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span></span><span></span><span></span>
-          </button>
+          {user ? (
+            <div className="navbar__profile" ref={dropdownRef}>
+              <button
+                className="navbar__profile-btn"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <div className="navbar__avatar">
+                  {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
+                </div>
+                <span className="navbar__username">{user.firstName}</span>
+                <span className="navbar__chevron">{dropdownOpen ? '▲' : '▼'}</span>
+              </button>
+
+              {dropdownOpen && (
+                <div className="navbar__dropdown">
+                  <div className="navbar__dropdown-header">
+                    <p className="navbar__dropdown-name">{user.firstName} {user.lastName}</p>
+                    <p className="navbar__dropdown-email">{user.email}</p>
+                  </div>
+                  <div className="navbar__dropdown-divider" />
+                  <Link to="/my-bookings" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                    📅 My Bookings
+                  </Link>
+                  <button className="navbar__dropdown-item navbar__dropdown-item--host">
+                    🏡 Become a Host
+                  </button>
+                  <div className="navbar__dropdown-divider" />
+                  <button className="navbar__dropdown-item navbar__dropdown-item--logout" onClick={handleLogout}>
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="navbar__login-btn">Sign in</Link>
+              <Link to="/register" className="navbar__register-btn">Sign up</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
