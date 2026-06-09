@@ -47,3 +47,14 @@ export const getMyBookings = async (token) => {
   });
   return res.json();
 };
+export const stkPush = async (data, token) => {
+  const res = await fetch(`${API_URL}/api/mpesa/stk-push`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};

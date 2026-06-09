@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { formatKES } from '../data/properties';
-import { createBooking } from '../services/api';
+import { createBooking, stkPush } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './BookingPage.css';
 
@@ -29,29 +29,42 @@ function BookingPage() {
   const update = (field, value) => setForm((f) => ({ ...f, [field]: value }));
 
   const handleConfirm = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await createBooking({
-        propertyId: property.id,
-        checkinDate: checkin,
-        checkoutDate: checkout,
-        guests,
-        paymentMethod: form.paymentMethod,
+  setLoading(true);
+  setError('');
+  try {
+    const data = await createBooking({
+      propertyId: property.id,
+      checkinDate: checkin,
+      checkoutDate: checkout,
+      guests,
+      paymentMethod: form.paymentMethod,
+    }, token);
+
+    if (data.error) {
+      setError(data.error);
+      setLoading(false);
+      return;
+    }
+
+    // Trigger STK Push for M-Pesa
+    if (form.paymentMethod === 'mpesa' && form.mpesaNumber) {
+      const mpesaRes = await stkPush({
+        phone: form.mpesaNumber,
+        amount: total,
+        bookingRef: data.booking.booking_ref,
       }, token);
 
-      if (data.error) {
-        setError(data.error);
-        setLoading(false);
-        return;
+      if (!mpesaRes.success) {
+        setError('Booking saved but M-Pesa push failed. Please pay manually.');
       }
-
-      navigate('/confirm', { state: { ...state, form, booking: data.booking } });
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
     }
-    setLoading(false);
-  };
+
+    navigate('/confirm', { state: { ...state, form, booking: data.booking } });
+  } catch (err) {
+    setError('Something went wrong. Please try again.');
+  }
+  setLoading(false);
+};
 
   return (
     <div className="booking-page">
@@ -119,16 +132,18 @@ function BookingPage() {
               </div>
 
               {form.paymentMethod === 'mpesa' ? (
-                <div className="booking-form__field">
-                  <label>M-Pesa number</label>
-                  <input
-                    type="tel"
-                    value={form.mpesaNumber}
-                    onChange={(e) => update('mpesaNumber', e.target.value)}
-                    placeholder="0712 345 678"
-                  />
-                  <p className="booking-form__hint">You'll receive an STK push to complete payment.</p>
-                </div>
+  <div className="booking-form__field">
+    <label>M-Pesa number</label>
+    <input
+      type="tel"
+      value={form.mpesaNumber}
+      onChange={(e) => update('mpesaNumber', e.target.value)}
+      placeholder="0712 345 678"
+    />
+    <p className="booking-form__hint">
+      📱 An STK push will be sent to this number when you confirm payment.
+    </p>
+  </div>
               ) : (
                 <>
                   <div className="booking-form__field">
