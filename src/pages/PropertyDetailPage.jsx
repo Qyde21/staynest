@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { PROPERTIES } from '../data/properties';
+import { getPropertyById, getProperties } from '../services/api';
 import BookingWidget from '../components/booking/BookingWidget';
 import PropertyCard from '../components/property/PropertyCard';
 import './PropertyDetailPage.css';
 
 function PropertyDetailPage() {
   const { id } = useParams();
-  const property = PROPERTIES.find((p) => p.id === Number(id));
+  const [property, setProperty] = useState(null);
+  const [similar, setSimilar] = useState([]);
   const [activeImg, setActiveImg] = useState(0);
-  const similar = PROPERTIES.filter((p) => p.id !== property?.id && p.category === property?.category).slice(0, 3);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProperty = async () => {
+      setLoading(true);
+      const data = await getPropertyById(id);
+      setProperty(data);
+      if (data?.category) {
+        const similarData = await getProperties({ category: data.category });
+        setSimilar(similarData.filter((p) => p.id !== data.id).slice(0, 3));
+      }
+      setLoading(false);
+    };
+    fetchProperty();
+  }, [id]);
+
+  if (loading) return <div className="detail-not-found container">Loading...</div>;
 
   if (!property) {
     return (
@@ -20,71 +37,59 @@ function PropertyDetailPage() {
     );
   }
 
+  const p = {
+    ...property,
+    price: property.price_per_night,
+    guests: property.max_guests,
+    reviews: property.review_count,
+  };
+
   return (
     <div className="detail-page">
-      {/* Gallery */}
       <div className="detail-gallery container">
-        <div className="detail-gallery__main" onClick={() => {}}>
-          <img src={property.images[activeImg]} alt={property.title} />
+        <div className="detail-gallery__main">
+          <img src={p.images[activeImg]} alt={p.title} />
         </div>
         <div className="detail-gallery__thumbs">
-          {property.images.map((img, i) => (
-            <img
-              key={i}
-              src={img}
-              alt={`View ${i + 1}`}
+          {p.images.map((img, i) => (
+            <img key={i} src={img} alt={`View ${i + 1}`}
               className={i === activeImg ? 'active' : ''}
-              onClick={() => setActiveImg(i)}
-            />
+              onClick={() => setActiveImg(i)} />
           ))}
         </div>
       </div>
 
-      {/* Content */}
       <div className="detail-content container">
         <div className="detail-main">
-          {/* Header */}
           <div className="detail-header">
             <div>
-              <p className="detail-location">{property.location}</p>
-              <h1 className="detail-title">{property.title}</h1>
+              <p className="detail-location">{p.location}</p>
+              <h1 className="detail-title">{p.title}</h1>
               <div className="detail-meta">
-                <span>★ {property.rating}</span>
+                <span>★ {p.rating}</span>
                 <span>·</span>
-                <span>{property.reviews} reviews</span>
+                <span>{p.reviews} reviews</span>
                 <span>·</span>
-                <span>{property.beds} beds</span>
+                <span>{p.beds} beds</span>
                 <span>·</span>
-                <span>{property.baths} baths</span>
+                <span>{p.baths} baths</span>
                 <span>·</span>
-                <span>Up to {property.guests} guests</span>
+                <span>Up to {p.guests} guests</span>
               </div>
             </div>
           </div>
 
-          {/* Host */}
-          <div className="detail-host">
-            <div className="detail-host__avatar">{property.host.avatar}</div>
-            <div>
-              <p className="detail-host__name">
-                Hosted by {property.host.name}
-                {property.host.superhost && <span className="detail-host__badge">Superhost</span>}
-              </p>
-              <p className="detail-host__joined">Member since {property.host.joined}</p>
+          {p.description && (
+            <div className="detail-section">
+              <h2>About this place</h2>
+              <p>{p.description}</p>
             </div>
-          </div>
+          )}
 
-          {/* Description */}
-          <div className="detail-section">
-            <h2>About this place</h2>
-            <p>{property.description}</p>
-          </div>
-
-          {/* Amenities */}
           <div className="detail-section">
             <h2>What's included</h2>
             <div className="detail-amenities">
-              {property.amenities.map((a) => (
+              {p.amenities?.map((a) => (
                 <div key={a} className="detail-amenity">
                   <span className="detail-amenity__check">✓</span>
                   <span>{a}</span>
@@ -94,18 +99,23 @@ function PropertyDetailPage() {
           </div>
         </div>
 
-        {/* Booking Widget */}
         <aside className="detail-sidebar">
-          <BookingWidget property={property} />
+          <BookingWidget property={p} />
         </aside>
       </div>
 
-      {/* Similar */}
       {similar.length > 0 && (
         <div className="detail-similar container">
           <h2 className="section-title">More like this</h2>
           <div className="detail-similar__grid">
-            {similar.map((p) => <PropertyCard key={p.id} property={p} />)}
+            {similar.map((s) => (
+              <PropertyCard key={s.id} property={{
+                ...s,
+                price: s.price_per_night,
+                guests: s.max_guests,
+                reviews: s.review_count,
+              }} />
+            ))}
           </div>
         </div>
       )}

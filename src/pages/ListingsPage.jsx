@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CategoryFilter from '../components/property/CategoryFilter';
 import PropertyCard from '../components/property/PropertyCard';
-import { PROPERTIES } from '../data/properties';
+import { getProperties } from '../services/api';
 import './ListingsPage.css';
 
 function ListingsPage() {
@@ -10,27 +10,29 @@ function ListingsPage() {
   const initialCategory = searchParams.get('category') || 'all';
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState('default');
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = useMemo(() => {
-    let list = activeCategory === 'all'
-      ? PROPERTIES
-      : PROPERTIES.filter((p) => p.category === activeCategory);
-
-    if (sortBy === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
-    if (sortBy === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
-    if (sortBy === 'rating') list = [...list].sort((a, b) => b.rating - a.rating);
-
-    return list;
+  useEffect(() => {
+    const fetchProperties = async () => {
+      setLoading(true);
+      const params = {};
+      if (activeCategory !== 'all') params.category = activeCategory;
+      if (sortBy !== 'default') params.sort = sortBy;
+      const data = await getProperties(params);
+      setProperties(data);
+      setLoading(false);
+    };
+    fetchProperties();
   }, [activeCategory, sortBy]);
 
   return (
     <div className="listings-page">
       <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
-
       <div className="listings-page__content container">
         <div className="listings-page__header">
           <p className="listings-page__count">
-            <strong>{filtered.length}</strong> stays in Kenya
+            <strong>{properties.length}</strong> stays in Kenya
           </p>
           <select
             className="listings-page__sort"
@@ -44,10 +46,17 @@ function ListingsPage() {
           </select>
         </div>
 
-        {filtered.length > 0 ? (
+        {loading ? (
+          <div className="listings-page__loading">Loading stays...</div>
+        ) : properties.length > 0 ? (
           <div className="listings-page__grid">
-            {filtered.map((p) => (
-              <PropertyCard key={p.id} property={p} />
+            {properties.map((p) => (
+              <PropertyCard key={p.id} property={{
+                ...p,
+                price: p.price_per_night,
+                guests: p.max_guests,
+                reviews: p.review_count,
+              }} />
             ))}
           </div>
         ) : (
