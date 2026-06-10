@@ -46,6 +46,7 @@ function Navbar() {
           <Link to="/listings" className="navbar__link">Explore</Link>
           <Link to="/listings?category=safari" className="navbar__link">Safaris</Link>
           <Link to="/listings?category=beach" className="navbar__link">Beaches</Link>
+          <Link to="/map" className="navbar__link">🗺️ Map</Link>
         </div>
 
         <div className="navbar__actions">

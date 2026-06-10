@@ -11,6 +11,7 @@ import BookingConfirmPage from './pages/BookingConfirmPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyBookingsPage from './pages/MyBookingsPage';
+import MapPage from './pages/MapPage';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/listings" element={<ListingsPage />} />
+              <Route path="/map" element={<MapPage />} />
               <Route path="/property/:id" element={<PropertyDetailPage />} />
               <Route path="/book/:id" element={<BookingPage />} />
               <Route path="/confirm" element={<BookingConfirmPage />} />
