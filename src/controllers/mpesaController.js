@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 const pool = require('../db/pool');
 
 const getAccessToken = async () => {
