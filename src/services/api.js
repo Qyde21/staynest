@@ -58,3 +58,19 @@ export const stkPush = async (data, token) => {
   });
   return res.json();
 };
+export const getReviews = async (propertyId) => {
+  const res = await fetch(`${API_URL}/api/reviews/${propertyId}`);
+  return res.json();
+};
+
+export const createReview = async (data, token) => {
+  const res = await fetch(`${API_URL}/api/reviews`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};

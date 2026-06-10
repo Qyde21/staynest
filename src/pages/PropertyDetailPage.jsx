@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getPropertyById, getProperties } from '../services/api';
 import BookingWidget from '../components/booking/BookingWidget';
 import PropertyCard from '../components/property/PropertyCard';
+import ReviewSection from '../components/property/ReviewSection';
 import './PropertyDetailPage.css';
 
 function PropertyDetailPage() {
@@ -97,6 +98,8 @@ function PropertyDetailPage() {
               ))}
             </div>
           </div>
+
+          <ReviewSection propertyId={p.id} />
         </div>
 
         <aside className="detail-sidebar">
