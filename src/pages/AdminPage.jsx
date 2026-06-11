@@ -30,6 +30,7 @@ function AdminPage() {
   const [addPropertyError, setAddPropertyError] = useState('');
   const [addPropertySuccess, setAddPropertySuccess] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user) { navigate('/login'); return; }
     if (!user.isAdmin) { navigate('/'); return; }
@@ -238,7 +239,7 @@ function AdminPage() {
         {activeTab === 'add-property' && (
           <div className="admin-section">
             <h1>Add New Property</h1>
-            {addPropertySuccess && <div className="admin-success">✓ Property added successfully!</div>}
+            {addPropertySuccess && <div className="admin-success">Property added successfully!</div>}
             {addPropertyError && <div className="admin-error">{addPropertyError}</div>}
             <div className="admin-form">
               <div className="admin-form__row">
@@ -283,7 +284,7 @@ function AdminPage() {
                 </div>
               </div>
               <div className="admin-form__field">
-                <label>Highlight (e.g. Beachfront, Safari Views)</label>
+                <label>Highlight</label>
                 <input value={newProperty.highlight} onChange={(e) => setNewProperty({...newProperty, highlight: e.target.value})} placeholder="Beachfront" />
               </div>
               <div className="admin-form__field">
@@ -299,7 +300,7 @@ function AdminPage() {
                 <input value={newProperty.images} onChange={(e) => setNewProperty({...newProperty, images: e.target.value})} placeholder="https://images.unsplash.com/..." />
               </div>
               <button className="admin-submit-btn" onClick={handleAddProperty} disabled={addingProperty}>
-                {addingProperty ? 'Adding...' : '➕ Add Property'}
+                {addingProperty ? 'Adding...' : 'Add Property'}
               </button>
             </div>
           </div>
@@ -328,7 +329,7 @@ function AdminPage() {
                       <td><strong>{b.booking_ref}</strong></td>
                       <td>{b.title}</td>
                       <td>{b.first_name} {b.last_name}<br /><small>{b.email}</small></td>
-                      <td>{new Date(b.checkin_date).toLocaleDateString('en-KE')} → {new Date(b.checkout_date).toLocaleDateString('en-KE')}</td>
+                      <td>{new Date(b.checkin_date).toLocaleDateString('en-KE')} to {new Date(b.checkout_date).toLocaleDateString('en-KE')}</td>
                       <td>{formatKES(b.total_amount)}</td>
                       <td><span className={`admin-badge admin-badge--${b.status}`}>{b.status}</span></td>
                       <td>
