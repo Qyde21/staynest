@@ -73,6 +73,11 @@ function Navbar() {
                   <Link to="/my-bookings" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
                     📅 My Bookings
                   </Link>
+                  {user.isAdmin && (
+                    <Link to="/admin" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                      ⚙️ Admin Dashboard
+                    </Link>
+                  )}
                   <button className="navbar__dropdown-item navbar__dropdown-item--host">
                     🏡 Become a Host
                   </button>

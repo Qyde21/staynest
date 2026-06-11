@@ -74,3 +74,80 @@ export const createReview = async (data, token) => {
   });
   return res.json();
 };
+export const getAdminStats = async (token) => {
+  const res = await fetch(`${API_URL}/api/admin/stats`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getAdminUsers = async (token) => {
+  const res = await fetch(`${API_URL}/api/admin/users`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getAdminBookings = async (token) => {
+  const res = await fetch(`${API_URL}/api/admin/bookings`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getAdminProperties = async (token) => {
+  const res = await fetch(`${API_URL}/api/admin/properties`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getAdminReviews = async (token) => {
+  const res = await fetch(`${API_URL}/api/admin/reviews`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const toggleProperty = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/admin/properties/${id}/toggle`, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const cancelAdminBooking = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/admin/bookings/${id}/cancel`, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const deleteAdminReview = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/admin/reviews/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const deleteAdminUser = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/admin/users/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+export const addAdminProperty = async (data, token) => {
+  const res = await fetch(`${API_URL}/api/admin/properties`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
