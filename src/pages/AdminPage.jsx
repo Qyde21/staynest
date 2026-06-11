@@ -101,12 +101,12 @@ function AdminPage() {
   };
 
   const tabs = [
-    { id: 'overview', label: '📊 Overview' },
-    { id: 'properties', label: '🏡 Properties' },
-    { id: 'add-property', label: '➕ Add Property' },
-    { id: 'bookings', label: '📅 Bookings' },
-    { id: 'users', label: '👥 Users' },
-    { id: 'reviews', label: '⭐ Reviews' },
+    { id: 'overview', label: 'ðŸ“Š Overview' },
+    { id: 'properties', label: 'ðŸ¡ Properties' },
+    { id: 'add-property', label: 'âž• Add Property' },
+    { id: 'bookings', label: 'ðŸ“… Bookings' },
+    { id: 'users', label: 'ðŸ‘¥ Users' },
+    { id: 'reviews', label: 'â­ Reviews' },
   ];
 
   if (loading) return (
@@ -140,28 +140,28 @@ function AdminPage() {
             <h1>Dashboard Overview</h1>
             <div className="admin-stats">
               <div className="stat-card">
-                <span className="stat-card__icon">👥</span>
+                <span className="stat-card__icon">ðŸ‘¥</span>
                 <div>
                   <p className="stat-card__value">{stats.totalUsers}</p>
                   <p className="stat-card__label">Total Users</p>
                 </div>
               </div>
               <div className="stat-card">
-                <span className="stat-card__icon">🏡</span>
+                <span className="stat-card__icon">ðŸ¡</span>
                 <div>
                   <p className="stat-card__value">{stats.totalProperties}</p>
                   <p className="stat-card__label">Active Properties</p>
                 </div>
               </div>
               <div className="stat-card">
-                <span className="stat-card__icon">📅</span>
+                <span className="stat-card__icon">ðŸ“…</span>
                 <div>
                   <p className="stat-card__value">{stats.totalBookings}</p>
                   <p className="stat-card__label">Total Bookings</p>
                 </div>
               </div>
               <div className="stat-card stat-card--revenue">
-                <span className="stat-card__icon">💰</span>
+                <span className="stat-card__icon">ðŸ’°</span>
                 <div>
                   <p className="stat-card__value">{formatKES(stats.totalRevenue)}</p>
                   <p className="stat-card__label">Total Revenue</p>
@@ -220,7 +220,7 @@ function AdminPage() {
                       <td><strong>{p.title}</strong><br /><small>{p.location}</small></td>
                       <td>{p.category}</td>
                       <td>{formatKES(p.price_per_night)}</td>
-                      <td>★ {p.rating}</td>
+                      <td>â˜… {p.rating}</td>
                       <td><span className={`admin-badge ${p.is_active ? 'admin-badge--confirmed' : 'admin-badge--cancelled'}`}>{p.is_active ? 'Active' : 'Inactive'}</span></td>
                       <td>
                         <button className="admin-action-btn" onClick={() => handleToggleProperty(p.id)}>
@@ -411,7 +411,7 @@ function AdminPage() {
                     <tr key={r.id}>
                       <td><strong>{r.property_title}</strong></td>
                       <td>{r.reviewer_name}</td>
-                      <td>{'★'.repeat(r.rating)}</td>
+                      <td>{'â˜…'.repeat(r.rating)}</td>
                       <td>{r.comment || '-'}</td>
                       <td>{new Date(r.created_at).toLocaleDateString('en-KE')}</td>
                       <td>
