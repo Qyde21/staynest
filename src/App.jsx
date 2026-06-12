@@ -13,6 +13,10 @@ import RegisterPage from './pages/RegisterPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import MapPage from './pages/MapPage';
 import AdminPage from './pages/AdminPage';
+import BecomeHostPage from './pages/BecomeHostPage';
+import HelpPage from './pages/HelpPage';
+import ContactPage from './pages/ContactPage';
+import { PrivacyPage, TermsPage, CancellationPage, SafetyPage } from './pages/PolicyPages';
 import './App.css';
 
 function App() {
@@ -33,6 +37,13 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/my-bookings" element={<MyBookingsPage />} />
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/become-a-host" element={<BecomeHostPage />} />
+              <Route path="/help" element={<HelpPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/cancellation-policy" element={<CancellationPage />} />
+              <Route path="/safety" element={<SafetyPage />} />
             </Routes>
           </main>
           <Footer />

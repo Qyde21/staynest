@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
@@ -26,16 +26,16 @@ function Footer() {
           </div>
           <div className="footer__col">
             <h4>Hosting</h4>
-            <button>Become a Host</button>
-            <button>Host Resources</button>
-            <button>Responsible Hosting</button>
+            <Link to="/become-a-host">Become a Host</Link>
+            <Link to="/help">Host Resources</Link>
+            <Link to="/safety">Responsible Hosting</Link>
           </div>
           <div className="footer__col">
             <h4>Support</h4>
-            <button>Help Centre</button>
-            <button>Cancellation Policy</button>
-            <button>Safety</button>
-            <button>Contact Us</button>
+            <Link to="/help">Help Centre</Link>
+            <Link to="/cancellation-policy">Cancellation Policy</Link>
+            <Link to="/safety">Safety</Link>
+            <Link to="/contact">Contact Us</Link>
           </div>
         </div>
       </div>
@@ -43,9 +43,9 @@ function Footer() {
       <div className="footer__bottom container">
         <p>&copy; {new Date().getFullYear()} StayNest Kenya. All rights reserved.</p>
         <div className="footer__bottom-links">
-          <button>Privacy</button>
-          <button>Terms</button>
-          <button>Sitemap</button>
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
+          <Link to="/contact">Contact</Link>
         </div>
       </div>
     </footer>
