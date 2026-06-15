@@ -151,3 +151,7 @@ export const addAdminProperty = async (data, token) => {
   });
   return res.json();
 };
+export const getPropertyAvailability = async (propertyId) => {
+  const res = await fetch(`${API_URL}/api/properties/${propertyId}/availability`);
+  return res.json();
+};

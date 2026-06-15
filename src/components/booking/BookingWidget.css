@@ -155,3 +155,34 @@
   font-size: 0.85rem;
   color: var(--stone);
 }
+.booking-widget__unavailable {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.booking-widget__booked {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sand-dark);
+}
+
+.booking-widget__booked p {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--stone);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.booking-widget__booked-date {
+  display: block;
+  font-size: 0.82rem;
+  color: #dc2626;
+  margin-bottom: 4px;
+}
