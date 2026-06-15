@@ -16,6 +16,7 @@ import AdminPage from './pages/AdminPage';
 import BecomeHostPage from './pages/BecomeHostPage';
 import HelpPage from './pages/HelpPage';
 import ContactPage from './pages/ContactPage';
+import HostDashboardPage from './pages/HostDashboardPage';
 import { PrivacyPage, TermsPage, CancellationPage, SafetyPage } from './pages/PolicyPages';
 import './App.css';
 
@@ -37,6 +38,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/my-bookings" element={<MyBookingsPage />} />
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/host" element={<HostDashboardPage />} />
               <Route path="/become-a-host" element={<BecomeHostPage />} />
               <Route path="/help" element={<HelpPage />} />
               <Route path="/contact" element={<ContactPage />} />

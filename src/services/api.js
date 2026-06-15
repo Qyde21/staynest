@@ -155,3 +155,43 @@ export const getPropertyAvailability = async (propertyId) => {
   const res = await fetch(`${API_URL}/api/properties/${propertyId}/availability`);
   return res.json();
 };
+export const getHostStats = async (token) => {
+  const res = await fetch(`${API_URL}/api/host/stats`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getHostProperties = async (token) => {
+  const res = await fetch(`${API_URL}/api/host/properties`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const getHostBookings = async (token) => {
+  const res = await fetch(`${API_URL}/api/host/bookings`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};
+
+export const addHostProperty = async (data, token) => {
+  const res = await fetch(`${API_URL}/api/host/properties`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
+
+export const toggleHostProperty = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/host/properties/${id}/toggle`, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  return res.json();
+};

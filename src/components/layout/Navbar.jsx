@@ -46,7 +46,7 @@ function Navbar() {
           <Link to="/listings" className="navbar__link">Explore</Link>
           <Link to="/listings?category=safari" className="navbar__link">Safaris</Link>
           <Link to="/listings?category=beach" className="navbar__link">Beaches</Link>
-          <Link to="/map" className="navbar__link">🗺️ Map</Link>
+          <Link to="/map" className="navbar__link">Map</Link>
         </div>
 
         <div className="navbar__actions">
@@ -71,16 +71,21 @@ function Navbar() {
                   </div>
                   <div className="navbar__dropdown-divider" />
                   <Link to="/my-bookings" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
-                    📅 My Bookings
+                    My Bookings
                   </Link>
-                  {user.isAdmin && (
-                    <Link to="/admin" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
-                      ⚙️ Admin Dashboard
+                  {(user.isHost || user.isAdmin) && (
+                    <Link to="/host" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                      Host Dashboard
                     </Link>
                   )}
-                  <button className="navbar__dropdown-item navbar__dropdown-item--host">
-                    🏡 Become a Host
-                  </button>
+                  {user.isAdmin && (
+                    <Link to="/admin" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                      Admin Dashboard
+                    </Link>
+                  )}
+                  <Link to="/become-a-host" className="navbar__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                    Become a Host
+                  </Link>
                   <div className="navbar__dropdown-divider" />
                   <button className="navbar__dropdown-item navbar__dropdown-item--logout" onClick={handleLogout}>
                     Sign out
