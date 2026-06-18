@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import './Navbar.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import "./Navbar.css";
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logoutUser } = useAuth();
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === "/";
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -24,18 +25,24 @@ function Navbar() {
         setDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setDropdownOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logoutUser();
     setDropdownOpen(false);
-    navigate('/');
+    setMobileMenuOpen(false);
+    navigate("/");
   };
 
   return (
-    <nav className={`navbar ${scrolled || !isHome ? 'navbar--solid' : 'navbar--transparent'}`}>
+    <nav className={`navbar ${scrolled || !isHome || mobileMenuOpen ? "navbar--solid" : "navbar--transparent"}`}>
       <div className="navbar__inner container">
         <Link to="/" className="navbar__logo">
           <span className="navbar__logo-mark">S</span>
@@ -60,7 +67,7 @@ function Navbar() {
                   {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
                 </div>
                 <span className="navbar__username">{user.firstName}</span>
-                <span className="navbar__chevron">{dropdownOpen ? '▲' : '▼'}</span>
+                <span className="navbar__chevron">{dropdownOpen ? "\u25B2" : "\u25BC"}</span>
               </button>
 
               {dropdownOpen && (
@@ -94,13 +101,51 @@ function Navbar() {
               )}
             </div>
           ) : (
-            <>
+            <div className="navbar__auth-desktop">
               <Link to="/login" className="navbar__login-btn">Sign in</Link>
               <Link to="/register" className="navbar__register-btn">Sign up</Link>
+            </div>
+          )}
+
+          <button
+            className="navbar__menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span style={mobileMenuOpen ? { transform: "rotate(45deg) translate(5px, 5px)" } : {}} />
+            <span style={mobileMenuOpen ? { opacity: 0 } : {}} />
+            <span style={mobileMenuOpen ? { transform: "rotate(-45deg) translate(5px, -5px)" } : {}} />
+          </button>
+        </div>
+      </div>
+
+      {mobileMenuOpen && (
+        <div className="navbar__mobile-menu">
+          <Link to="/listings" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Explore</Link>
+          <Link to="/listings?category=safari" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Safaris</Link>
+          <Link to="/listings?category=beach" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Beaches</Link>
+          <Link to="/map" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Map</Link>
+          <div className="navbar__mobile-divider" />
+          {user ? (
+            <>
+              <Link to="/my-bookings" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
+              {(user.isHost || user.isAdmin) && (
+                <Link to="/host" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Host Dashboard</Link>
+              )}
+              {user.isAdmin && (
+                <Link to="/admin" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Admin Dashboard</Link>
+              )}
+              <Link to="/become-a-host" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Become a Host</Link>
+              <button className="navbar__mobile-link navbar__mobile-link--logout" onClick={handleLogout}>Sign out</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="navbar__mobile-link" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
+              <Link to="/register" className="navbar__mobile-link navbar__mobile-link--signup" onClick={() => setMobileMenuOpen(false)}>Sign up</Link>
             </>
           )}
         </div>
-      </div>
+      )}
     </nav>
   );
 }
