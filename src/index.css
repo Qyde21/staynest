@@ -1,20 +1,20 @@
-/* ─── StayNest Design Tokens ─── */
+/* StayNest Design Tokens */
 :root {
-  --sand: #f5f0e8;
-  --sand-dark: #e8e0d0;
-  --clay: #c4704a;
-  --clay-light: #d98b67;
-  --clay-dark: #a85a38;
-  --forest: #2d5016;
-  --forest-light: #3d6b20;
-  --ink: #1a1410;
-  --ink-soft: #3d3530;
-  --stone: #7a7068;
-  --stone-light: #b0a898;
-  --white: #fdfaf6;
-  --shadow-sm: 0 2px 8px rgba(26, 20, 16, 0.08);
-  --shadow-md: 0 8px 24px rgba(26, 20, 16, 0.12);
-  --shadow-lg: 0 20px 60px rgba(26, 20, 16, 0.18);
+  --sand: #f0f4f3;
+  --sand-dark: #dde6e4;
+  --clay: #0d6e6e;
+  --clay-light: #2e8c8c;
+  --clay-dark: #094f4f;
+  --forest: #144a4a;
+  --forest-light: #1c6363;
+  --ink: #0f1f1f;
+  --ink-soft: #38504f;
+  --stone: #5e7877;
+  --stone-light: #a3b8b7;
+  --white: #fbfdfc;
+  --shadow-sm: 0 2px 8px rgba(15, 31, 31, 0.08);
+  --shadow-md: 0 8px 24px rgba(15, 31, 31, 0.12);
+  --shadow-lg: 0 20px 60px rgba(15, 31, 31, 0.18);
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -23,17 +23,14 @@
   --font-body: 'DM Sans', sans-serif;
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 html {
   scroll-behavior: smooth;
 }
-
 body {
   font-family: var(--font-body);
   background: var(--sand);
@@ -42,31 +39,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
 button {
   cursor: pointer;
   font-family: var(--font-body);
   border: none;
   outline: none;
 }
-
 img {
   display: block;
   max-width: 100%;
 }
-
-/* ─── Utility Classes ─── */
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
 }
-
 .btn-primary {
   background: var(--clay);
   color: var(--white);
@@ -77,13 +68,11 @@ img {
   letter-spacing: 0.02em;
   transition: var(--transition);
 }
-
 .btn-primary:hover {
   background: var(--clay-dark);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
-
 .btn-outline {
   background: transparent;
   color: var(--clay);
@@ -94,28 +83,21 @@ img {
   font-size: 0.95rem;
   transition: var(--transition);
 }
-
 .btn-outline:hover {
   background: var(--clay);
   color: var(--white);
 }
-
-/* ─── Animations ─── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
 .fade-up {
   animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-
-/* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--sand-dark); }
 ::-webkit-scrollbar-thumb { background: var(--stone-light); border-radius: 3px; }
