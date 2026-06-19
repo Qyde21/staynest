@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import SearchBar from '../components/ui/SearchBar';
 import PropertyCard from '../components/property/PropertyCard';
 import { PROPERTIES } from '../data/properties';
@@ -16,6 +17,8 @@ const REGIONS = [
 function HomePage() {
   return (
     <div className="home">
+      <SEO />
+
       {/* Hero */}
       <section className="hero">
         <div className="hero__bg">

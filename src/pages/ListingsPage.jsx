@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import SEO from '../components/SEO';
 import CategoryFilter from '../components/property/CategoryFilter';
 import PropertyCard from '../components/property/PropertyCard';
 import { getProperties } from '../services/api';
@@ -55,6 +56,7 @@ function ListingsPage() {
 
   return (
     <div className="listings-page">
+      <SEO title="Browse Stays" description="Explore beach, safari, mountain and lakeside accommodations across Kenya." />
       <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
 
       <div className="listings-page__content container">

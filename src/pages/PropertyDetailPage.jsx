@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { getPropertyById, getProperties } from '../services/api';
 import BookingWidget from '../components/booking/BookingWidget';
 import PropertyCard from '../components/property/PropertyCard';
 import ReviewSection from '../components/property/ReviewSection';
+import { formatKES } from '../data/properties';
 import './PropertyDetailPage.css';
 
 function PropertyDetailPage() {
@@ -47,6 +49,12 @@ function PropertyDetailPage() {
 
   return (
     <div className="detail-page">
+      <SEO
+        title={`${p.title} - ${p.location}`}
+        description={`${p.highlight ? p.highlight + '. ' : ''}${p.beds} beds, ${p.baths} baths, sleeps up to ${p.guests} guests. From ${formatKES(p.price)}/night. ${p.description ? p.description.slice(0, 100) : ''}`}
+        image={p.images?.[0]}
+      />
+
       <div className="detail-gallery container">
         <div className="detail-gallery__main">
           <img src={p.images[activeImg]} alt={p.title} />
