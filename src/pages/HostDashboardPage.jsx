@@ -21,7 +21,7 @@ function HostDashboardPage() {
   const [newProperty, setNewProperty] = useState({
     title: '', location: '', category: 'beach', price_per_night: '',
     beds: '', baths: '', max_guests: '', highlight: '',
-    description: '', amenities: '', images: ''
+    description: '', amenities: '', images: '', latitude: '', longitude: ''
   });
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState('');
@@ -64,7 +64,7 @@ function HostDashboardPage() {
       setAddError(data.error);
     } else {
       setAddSuccess(true);
-      setNewProperty({ title: '', location: '', category: 'beach', price_per_night: '', beds: '', baths: '', max_guests: '', highlight: '', description: '', amenities: '', images: '' });
+      setNewProperty({ title: '', location: '', category: 'beach', price_per_night: '', beds: '', baths: '', max_guests: '', highlight: '', description: '', amenities: '', images: '', latitude: '', longitude: '' });
       fetchAll();
       setTimeout(() => setAddSuccess(false), 3000);
     }
@@ -188,7 +188,7 @@ function HostDashboardPage() {
                       <h3 className="host-property-card__title">{p.title}</h3>
                       <div className="host-property-card__meta">
                         <span>{formatKES(p.price_per_night)}/night</span>
-                        <span>★ {p.rating}</span>
+                        <span>Ã¢Ëœâ€¦ {p.rating}</span>
                       </div>
                       <div className="host-property-card__actions">
                         <span className={`host-badge ${p.is_active ? 'host-badge--confirmed' : 'host-badge--cancelled'}`}>
@@ -320,6 +320,16 @@ function HostDashboardPage() {
     onChange={(imgs) => setNewProperty({...newProperty, images: imgs.join(',')})}
   />
 </div>
+              <div className="host-form__row">
+                <div className="host-form__field">
+                  <label>Latitude (for map)</label>
+                  <input type="number" step="any" value={newProperty.latitude} onChange={(e) => setNewProperty({...newProperty, latitude: e.target.value})} placeholder="-4.2769" />
+                </div>
+                <div className="host-form__field">
+                  <label>Longitude (for map)</label>
+                  <input type="number" step="any" value={newProperty.longitude} onChange={(e) => setNewProperty({...newProperty, longitude: e.target.value})} placeholder="39.5908" />
+                </div>
+              </div>
               <button className="host-submit-btn" onClick={handleAddProperty} disabled={adding}>
                 {adding ? 'Adding...' : 'Add Property'}
               </button>
