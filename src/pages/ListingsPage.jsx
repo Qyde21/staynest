@@ -11,6 +11,12 @@ function ListingsPage() {
   const initialCategory = searchParams.get('category') || 'all';
   const initialLocation = searchParams.get('location') || '';
   const [activeCategory, setActiveCategory] = useState(initialCategory);
+
+  useEffect(() => {
+    setActiveCategory(searchParams.get('category') || 'all');
+    setLocation(searchParams.get('location') || '');
+    setLocationInput(searchParams.get('location') || '');
+  }, [searchParams]);
   const [sortBy, setSortBy] = useState('default');
   const [location, setLocation] = useState(initialLocation);
   const [locationInput, setLocationInput] = useState(initialLocation);
