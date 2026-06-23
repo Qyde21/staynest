@@ -207,3 +207,64 @@
   .detail-similar__grid { grid-template-columns: 1fr; }
   .detail-amenities { grid-template-columns: 1fr; }
 }
+.detail-host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--sand-dark);
+}
+
+.detail-host__info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.detail-host__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.detail-host__label {
+  font-size: 0.78rem;
+  color: var(--stone);
+  margin-bottom: 2px;
+}
+
+.detail-host__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.detail-host__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: white;
+  padding: 11px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.detail-host__whatsapp:hover {
+  background: #1ebe57;
+  transform: translateY(-1px);
+}
