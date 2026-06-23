@@ -7,6 +7,7 @@ import {
   toggleHostProperty
 } from '../services/api';
 import { formatKES } from '../data/properties';
+import ImageUploader from '../components/ImageUploader';
 import './HostDashboardPage.css';
 
 function HostDashboardPage() {
@@ -312,10 +313,13 @@ function HostDashboardPage() {
                 <label>Amenities (comma separated)</label>
                 <input value={newProperty.amenities} onChange={(e) => setNewProperty({...newProperty, amenities: e.target.value})} placeholder="WiFi, Pool, Kitchen, Parking" />
               </div>
-              <div className="host-form__field">
-                <label>Image URLs (comma separated)</label>
-                <input value={newProperty.images} onChange={(e) => setNewProperty({...newProperty, images: e.target.value})} placeholder="https://images.unsplash.com/..." />
-              </div>
+             <div className="host-form__field">
+  <label>Photos</label>
+  <ImageUploader
+    images={newProperty.images ? newProperty.images.split(',').map(s => s.trim()).filter(Boolean) : []}
+    onChange={(imgs) => setNewProperty({...newProperty, images: imgs.join(',')})}
+  />
+</div>
               <button className="host-submit-btn" onClick={handleAddProperty} disabled={adding}>
                 {adding ? 'Adding...' : 'Add Property'}
               </button>

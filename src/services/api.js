@@ -195,3 +195,13 @@ export const toggleHostProperty = async (id, token) => {
   });
   return res.json();
 };
+export const uploadImage = async (file, token) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  const res = await fetch(`${API_URL}/api/upload`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: formData,
+  });
+  return res.json();
+};

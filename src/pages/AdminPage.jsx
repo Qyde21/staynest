@@ -9,6 +9,7 @@ import {
   addAdminProperty
 } from "../services/api";
 import { formatKES } from "../data/properties";
+import ImageUploader from "../components/ImageUploader";
 import "./AdminPage.css";
 
 function AdminPage() {
@@ -218,7 +219,13 @@ function AdminPage() {
               <div className="admin-form__field"><label>Highlight</label><input value={newProperty.highlight} onChange={(e) => setNewProperty({...newProperty, highlight: e.target.value})} placeholder="Beachfront" /></div>
               <div className="admin-form__field"><label>Description</label><textarea rows={4} value={newProperty.description} onChange={(e) => setNewProperty({...newProperty, description: e.target.value})} placeholder="Describe the property..." /></div>
               <div className="admin-form__field"><label>Amenities (comma separated)</label><input value={newProperty.amenities} onChange={(e) => setNewProperty({...newProperty, amenities: e.target.value})} placeholder="WiFi, Pool, Kitchen, Parking" /></div>
-              <div className="admin-form__field"><label>Image URLs (comma separated)</label><input value={newProperty.images} onChange={(e) => setNewProperty({...newProperty, images: e.target.value})} placeholder="https://images.unsplash.com/..." /></div>
+              <div className="admin-form__field">
+                <label>Photos</label>
+                <ImageUploader
+                  images={newProperty.images ? newProperty.images.split(',').map(s => s.trim()).filter(Boolean) : []}
+                  onChange={(imgs) => setNewProperty({...newProperty, images: imgs.join(',')})}
+                />
+              </div>
               <button className="admin-submit-btn" onClick={handleAddProperty} disabled={addingProperty}>{addingProperty ? "Adding..." : "Add Property"}</button>
             </div>
           </div>
